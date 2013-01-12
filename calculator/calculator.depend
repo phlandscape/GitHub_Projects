@@ -1,0 +1,48 @@
+# depslib dependency file v1.0
+1357921984 source:d:\c++\firstproject\calculator\src\converting.cpp
+	"../include/converting.h"
+
+1357921945 d:\c++\firstproject\calculator\include\converting.h
+	<string>
+	<vector>
+	<cmath>
+	<sstream>
+
+1357906191 source:d:\c++\firstproject\calculator\main.cpp
+	<iostream>
+	<cmath>
+	<string>
+	<vector>
+	<sstream>
+	"calculator.h"
+
+1357920424 d:\c++\firstproject\calculator\calculator.h
+	"include/converting.h"
+	"include/triangle.h"
+	"include/palindrome.h"
+
+1357923170 d:\c++\firstproject\calculator\include\triangle.h
+	<vector>
+
+1357919807 source:d:\c++\firstproject\calculator\src\triangle.cpp
+	"../include/triangle.h"
+	<vector>
+	<cmath>
+
+1357919986 d:\c++\firstproject\calculator\include\palindrome.h
+	<string>
+	<vector>
+
+1357921854 source:d:\c++\firstproject\calculator\src\palindroms.cpp
+	<vector>
+	<string>
+	<sstream>
+	<iostream>
+
+1357919807 source:d:\c++\firstproject\calculator\src\polygons.cpp
+	"../include/polygons.h"
+	<vector>
+
+1357919807 d:\c++\firstproject\calculator\include\polygons.h
+	<vector>
+
