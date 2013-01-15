@@ -206,7 +206,6 @@ int main()
       ++cap;
     }
     temp = std::string(it, cap);
-    std::cout << temp << std::endl;
     int b = atoi(temp.c_str());
     if(is_valid(b))
     {
