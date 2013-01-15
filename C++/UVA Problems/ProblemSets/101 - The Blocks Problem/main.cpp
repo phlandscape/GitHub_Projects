@@ -29,15 +29,83 @@ typedef std::list<stacky> piles;
 typedef stacky::iterator stIT;
 typedef piles::iterator pIT;
 typedef std::string::const_iterator cchIT;
-/*
- using stacky = std::list<int>;
- using piles = std::list<stacky>;
-*/
 /** \brief
  * struct class to work with the problem set 101 from
  * http://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=3&page=show_problem&problem=37
  */
+struct pilestruct
+{
+ public:
+ pilestruct(unsigned int max_piles);
+ /**<
+  Where first and second are block numbers,
+  puts block first onto block second after returning any blocks
+  that are stacked on top of blocks first and second to their initial positions. */
+ void Move_Onto(int first, int second);
+ /**<
+ Where first and second are block numbers,
+ puts block first onto the top of the stack containing block second,
+ after returning any blocks that are stacked on top of block first to their initial positions.  */
+ void Move_Over(int first, int second);
+ /**<
+  Where first and second are block numbers,
+  moves the pile of blocks consisting of block first,
+  and any blocks that are stacked above block first, onto block second.
+  All blocks on top of block second are moved to their initial positions prior to the pile taking place.
+  The blocks stacked above block first retain their order when moved.  */
+ void Pile_Onto(int first, int second);
+ /**<
+ Where first and second are block numbers,
+ puts the pile of blocks consisting of block first,
+ and any blocks that are stacked above block first,
+ onto the top of the stack containing block second.
+ The blocks stacked above block first retain their original order when moved.  */
+ void Pile_Over(int first, int second);
+ /**< Will print the current pile compositions */
+ void PrintStats();
+ /**<
+ Takes in a string command of type "COMMAND DIGIT COMMAND DIGIT" and performs this action
+ on our workspace container */
+ void evaluateCommand(const std::string& s);
 
+ private:
+ bool is_valid(unsigned int n);
+ pIT find_IT(int a, int& pos);
+ piles workspace;
+};// end of struct pilestruct
+
+int main()
+{
+    std::string temp;
+    std::list<std::string> commands;
+    int mmm = 0;
+    while(mmm < 1 || mmm > 24)
+    {
+      std::string input;
+      std::cin >> input;
+      mmm = atoi(input.c_str());
+    }
+     pilestruct robotic(mmm);
+    while(getline(std::cin,temp))
+    {
+      if(temp == "quit")
+      {
+        break;
+      }
+      commands.push_back(temp);
+    }
+    for(std::list<std::string>::iterator it = commands.begin(); it != commands.end(); ++it)
+    {
+     robotic.evaluateCommand(*it);
+    }
+    robotic.PrintStats();
+    return 0;
+}
+
+/** \brief
+ * struct class to work with the problem set 101 from
+ * http://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=3&page=show_problem&problem=37
+ */
 struct pilestruct
 {
  public:
@@ -237,6 +305,10 @@ struct pilestruct
      std::cout << std::endl;
    }
  }
+ /**<
+ takes in a string command of type "COMMAND DIGIT COMMAND DIGIT" and performs this action
+ on our workspace container
+ */
  void evaluateCommand(const std::string& s)
  {
  // is it the move command?
@@ -404,33 +476,4 @@ struct pilestruct
 
  }// successful pile command
  }
-
-};// end of struct pilestruct
-
-int main()
-{
-    std::string temp;
-    std::list<std::string> commands;
-    int mmm = 0;
-    while(mmm < 1 || mmm > 24)
-    {
-      std::string input;
-      std::cin >> input;
-      mmm = atoi(input.c_str());
-    }
-     pilestruct robotic(mmm);
-    while(getline(std::cin,temp))
-    {
-      if(temp == "quit")
-      {
-        break;
-      }
-      commands.push_back(temp);
-    }
-    for(std::list<std::string>::iterator it = commands.begin(); it != commands.end(); ++it)
-    {
-     robotic.evaluateCommand(*it);
-    }
-    robotic.PrintStats();
-    return 0;
-}
+};

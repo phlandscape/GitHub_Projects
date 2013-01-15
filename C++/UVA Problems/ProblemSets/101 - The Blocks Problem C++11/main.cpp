@@ -35,7 +35,6 @@ Don't put any trailing spaces on a line.  */
 struct pilestruct
 {
  public:
- piles workspace;
  pilestruct(unsigned int max_piles)
  {
  /** \brief
@@ -47,31 +46,92 @@ struct pilestruct
     workspace.push_back(stacky(1,--max_piles));
   }
  }
+
+public:
+ /**<
+  Where first and second are block numbers,
+  puts block first onto block second after returning any blocks
+  that are stacked on top of blocks first and second to their initial positions. */
+ void Move_Onto(int first, int second);
+ /**<
+ Where first and second are block numbers,
+ puts block first onto the top of the stack containing block second,
+ after returning any blocks that are stacked on top of block first to their initial positions.  */
+ void Move_Over(int first, int second);
+ /**<
+  Where first and second are block numbers,
+  moves the pile of blocks consisting of block first,
+  and any blocks that are stacked above block first, onto block second.
+  All blocks on top of block second are moved to their initial positions prior to the pile taking place.
+  The blocks stacked above block first retain their order when moved.  */
+ void Pile_Onto(int first, int second);
+ /**<
+ Where first and second are block numbers,
+ puts the pile of blocks consisting of block first,
+ and any blocks that are stacked above block first,
+ onto the top of the stack containing block second.
+ The blocks stacked above block first retain their original order when moved.  */
+ void Pile_Over(int first, int second);
+ /**< Will print the current pile compositions */
+ void PrintStats();
+ /**<
+ Takes in a string command of type "COMMAND DIGIT COMMAND DIGIT" and performs this action
+ on our workspace container */
+ void evaluateCommand(const std::string& s);
  private:
- bool is_valid(unsigned int n)
- {
-  if(n >= 0 && n < workspace.size())
-  {
-    return true;
-  }
-  return false;
- }
- piles::iterator find_IT(int a, int& pos)
- {
-  for(auto it = workspace.begin(); it!= workspace.end(); ++it)
-  {
-   pos = 0;
-    for(auto kk = it->begin(); kk != it->end(); ++kk)
+ piles workspace;
+ bool is_valid(unsigned int n);
+ piles::iterator find_IT(int a, int& pos);
+};// end of struct pilestruct
+
+int main()
+{
+    std::string temp;
+    std::list<std::string> commands;
+    int mmm = 0;
+    while(mmm < 1 || mmm > 24)
     {
-      if(*kk == a)
-      {
-        return it;
-      }
-      ++pos;
+      std::string input;
+      std::cin >> input;
+      mmm = atoi(input.c_str());
     }
+     pilestruct robotic(mmm);
+    while(getline(std::cin,temp))
+    {
+      if(temp == "quit")
+      {
+        break;
+      }
+      commands.push_back(temp);
+    }
+    for(auto it = commands.begin(); it != commands.end(); ++it)
+    {
+     robotic.evaluateCommand(*it);
+    }
+    robotic.PrintStats();
+    return 0;
+}
+
+/** \brief
+ * struct class to work with the problem set 101 from
+ * http://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=3&page=show_problem&problem=37
+ */
+
+struct pilestruct
+{
+ public:
+ pilestruct(unsigned int max_piles)
+ {
+ /** \brief
+  * Creates max_piles piles with 1 block each. Numbering the Blocks from a to 1
+  * \param max_piles number of Piles created
+  */
+  while(max_piles != 0)
+  {
+    workspace.push_back(stacky(1,--max_piles));
   }
-  return workspace.end();
- } // end of piles::it find_IT(i,i)
+ }
+
  public:
  /**<
   Where first and second are block numbers,
@@ -397,33 +457,30 @@ struct pilestruct
 
  }// successful pile command
  }
-
-};// end of struct pilestruct
-
-int main()
-{
-    std::string temp;
-    std::list<std::string> commands;
-    int mmm = 0;
-    while(mmm < 1 || mmm > 24)
+ private:
+ piles workspace;
+ bool is_valid(unsigned int n)
+ {
+  if(n >= 0 && n < workspace.size())
+  {
+    return true;
+  }
+  return false;
+ }
+ piles::iterator find_IT(int a, int& pos)
+ {
+  for(auto it = workspace.begin(); it!= workspace.end(); ++it)
+  {
+   pos = 0;
+    for(auto kk = it->begin(); kk != it->end(); ++kk)
     {
-      std::string input;
-      std::cin >> input;
-      mmm = atoi(input.c_str());
-    }
-     pilestruct robotic(mmm);
-    while(getline(std::cin,temp))
-    {
-      if(temp == "quit")
+      if(*kk == a)
       {
-        break;
+        return it;
       }
-      commands.push_back(temp);
+      ++pos;
     }
-    for(auto it = commands.begin(); it != commands.end(); ++it)
-    {
-     robotic.evaluateCommand(*it);
-    }
-    robotic.PrintStats();
-    return 0;
-}
+  }
+  return workspace.end();
+ } // end of piles::it find_IT(i,i)
+};// end of struct pilestruct
