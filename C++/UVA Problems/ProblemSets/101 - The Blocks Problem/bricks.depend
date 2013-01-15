@@ -1,0 +1,10 @@
+# depslib dependency file v1.0
+1358252384 source:d:\c++\firstproject\bricks\main.cpp
+	<iostream>
+	<list>
+	<string>
+	<iterator>
+	<algorithm>
+	<sstream>
+	<cstdlib>
+
