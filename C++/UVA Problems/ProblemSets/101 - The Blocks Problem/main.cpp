@@ -103,16 +103,14 @@ int main()
     return 0;
 }
 
-/** \brief
+/* \brief
  * struct class to work with the problem set 101 from
  * http://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=3&page=show_problem&problem=37
  */
-struct pilestruct
-{
- public:
- pilestruct(unsigned int max_piles)
+
+ pilestruct::pilestruct(unsigned int max_piles)
  {
- /** \brief
+ /* \brief
   * Creates max_piles piles with 1 block each. Numbering the Blocks from a to 1
   * \param max_piles number of Piles created
   */
@@ -121,8 +119,8 @@ struct pilestruct
     workspace.push_back(stacky(1,--max_piles));
   }
  }
- /**< Will print the current pile compositions */
- void PrintStats()
+ /*< Will print the current pile compositions */
+ void pilestruct::PrintStats()
  {
    int on = 0;
    for(piles::reverse_iterator it = workspace.rbegin(); it != workspace.rend(); it++)
@@ -135,11 +133,11 @@ struct pilestruct
      std::cout << std::endl;
    }
  }
- /**<
+ /*<
  takes in a string command of type "COMMAND DIGIT COMMAND DIGIT" and performs this action
  on our workspace container
  */
- void evaluateCommand(const std::string& s)
+ void pilestruct::evaluateCommand(const std::string& s)
  {
  // is it the move command?
  cchIT it = s.begin()+4;
@@ -306,9 +304,7 @@ struct pilestruct
 
  }// successful pile command
  }
-
- private:
- bool is_valid(unsigned int n)
+ bool pilestruct::is_valid(unsigned int n)
  {
   if(n >= 0 && n < workspace.size())
   {
@@ -316,7 +312,7 @@ struct pilestruct
   }
   return false;
  }
- pIT find_IT(int a, int& pos)
+ pIT pilestruct::find_IT(int a, int& pos)
  {
   for(pIT it = workspace.begin(); it!= workspace.end(); ++it)
   {
@@ -333,11 +329,11 @@ struct pilestruct
   return workspace.end();
   } // end of piles::it find_IT(i,i)
 
- /**<
+ /*<
   Where first and second are block numbers,
   puts block first onto block second after returning any blocks
   that are stacked on top of blocks first and second to their initial positions. */
- void Move_Onto(int first, int second)
+ void pilestruct::Move_Onto(int first, int second)
  {
   if(first==second)
   {
@@ -370,11 +366,11 @@ struct pilestruct
 
   pile_a->erase(temp_a);
  }// end of v Move_Onto(i,i)
- /**<
+ /*<
  Where first and second are block numbers,
  puts block first onto the top of the stack containing block second,
  after returning any blocks that are stacked on top of block first to their initial positions.  */
- void Move_Over(int first, int second)
+ void pilestruct::Move_Over(int first, int second)
  {
   if(first==second)
   {
@@ -405,13 +401,13 @@ struct pilestruct
 
   pile_a->erase(temp_a);
  }// end of v Move_Over(i,i)
- /**<
+ /*<
   Where first and second are block numbers,
   moves the pile of blocks consisting of block first,
   and any blocks that are stacked above block first, onto block second.
   All blocks on top of block second are moved to their initial positions prior to the pile taking place.
   The blocks stacked above block first retain their order when moved.  */
- void Pile_Onto(int first, int second)
+ void pilestruct::Pile_Onto(int first, int second)
  {
   if(first==second)
   {
@@ -443,13 +439,13 @@ struct pilestruct
 
   pile_a->erase(temp_a,pile_a->end());
  }// end of v Pile_Onto(i,i)
- /**<
+ /*<
  Where first and second are block numbers,
  puts the pile of blocks consisting of block first,
  and any blocks that are stacked above block first,
  onto the top of the stack containing block second.
  The blocks stacked above block first retain their original order when moved.  */
- void Pile_Over(int first, int second)
+ void pilestruct::Pile_Over(int first, int second)
  {
   if(first==second)
   {
@@ -477,6 +473,3 @@ struct pilestruct
 
   pile_a->erase(temp_a,pile_a->end());
  }// end of v Pile_Over(i,i)
-
- piles workspace;
- };
