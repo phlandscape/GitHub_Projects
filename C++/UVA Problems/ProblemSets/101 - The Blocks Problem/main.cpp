@@ -23,10 +23,16 @@ Don't put any trailing spaces on a line.  */
 #include <algorithm>
 #include <sstream>
 #include <cstdlib>
+typedef std::list<int> stacky;
+typedef std::list<stacky> piles;
 
+typedef stacky::iterator stIT;
+typedef piles::iterator pIT;
+typedef std::string::const_iterator cchIT;
+/*
  using stacky = std::list<int>;
  using piles = std::list<stacky>;
-
+*/
 /** \brief
  * struct class to work with the problem set 101 from
  * http://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=3&page=show_problem&problem=37
@@ -56,12 +62,12 @@ struct pilestruct
   }
   return false;
  }
- piles::iterator find_IT(int a, int& pos)
+ pIT find_IT(int a, int& pos)
  {
-  for(auto it = workspace.begin(); it!= workspace.end(); ++it)
+  for(pIT it = workspace.begin(); it!= workspace.end(); ++it)
   {
    pos = 0;
-    for(auto kk = it->begin(); kk != it->end(); ++kk)
+    for(stIT kk = it->begin(); kk != it->end(); ++kk)
     {
       if(*kk == a)
       {
@@ -85,12 +91,12 @@ struct pilestruct
   }
   int pos_a = 0;
   int pos_b = 0;
-  piles::iterator pile_a = find_IT(first,pos_a);
+  pIT pile_a = find_IT(first,pos_a);
   if(pile_a == workspace.end())
   {
     return;
   }
-  piles::iterator pile_b = find_IT(second,pos_b);
+  pIT pile_b = find_IT(second,pos_b);
   if(pile_b == workspace.end())
   {
     return;
@@ -99,11 +105,11 @@ struct pilestruct
   {
     return;
   }
-  auto temp_b = pile_b->begin();
+  stIT temp_b = pile_b->begin();
   advance(temp_b,pos_b+1);
-  auto temp_a = pile_a->begin();
+  stIT temp_a = pile_a->begin();
   advance(temp_a,pos_a);
-  auto temp_a_after = temp_a;
+  stIT temp_a_after = temp_a;
   advance(temp_a_after,1);
   pile_b->insert(temp_b,temp_a,temp_a_after);
 
@@ -122,12 +128,12 @@ struct pilestruct
   }
   int pos_a = 0;
   int pos_b = 0;
-  piles::iterator pile_a = find_IT(first,pos_a);
+  pIT pile_a = find_IT(first,pos_a);
   if(pile_a == workspace.end())
   {
     return;
   }
-  piles::iterator pile_b = find_IT(second,pos_b);
+  pIT pile_b = find_IT(second,pos_b);
   if(pile_b == workspace.end())
   {
     return;
@@ -136,9 +142,9 @@ struct pilestruct
   {
     return;
   };
-  auto temp_a = pile_a->begin();
+  stIT temp_a = pile_a->begin();
   advance(temp_a,pos_a);
-  auto temp_a_after = temp_a;
+  stIT temp_a_after = temp_a;
   advance(temp_a_after,1);
   pile_b->insert(pile_b->end(),temp_a,temp_a_after);
 
@@ -159,12 +165,12 @@ struct pilestruct
   }
   int pos_a = 0;
   int pos_b = 0;
-  piles::iterator pile_a = find_IT(first,pos_a);
+  pIT pile_a = find_IT(first,pos_a);
   if(pile_a == workspace.end())
   {
     return;
   }
-  piles::iterator pile_b = find_IT(second,pos_b);
+  pIT pile_b = find_IT(second,pos_b);
   if(pile_b == workspace.end())
   {
     return;
@@ -174,10 +180,10 @@ struct pilestruct
     return;
   }
 
-  auto temp_b_after = pile_b->begin();
+  stIT temp_b_after = pile_b->begin();
   advance(temp_b_after,pos_b+1);
 
-  auto temp_a = pile_a->begin();
+  stIT temp_a = pile_a->begin();
   advance(temp_a,pos_a);
   pile_b->insert(temp_b_after,temp_a,pile_a->end());
 
@@ -197,12 +203,12 @@ struct pilestruct
   }
   int pos_a = 0;
   int pos_b = 0;
-  piles::iterator pile_a = find_IT(first,pos_a);
+  pIT pile_a = find_IT(first,pos_a);
   if(pile_a == workspace.end())
   {
     return;
   }
-  piles::iterator pile_b = find_IT(second,pos_b);
+  pIT pile_b = find_IT(second,pos_b);
   if(pile_b == workspace.end())
   {
     return;
@@ -211,7 +217,7 @@ struct pilestruct
   {
     return;
   }
-  auto temp_a = pile_a->begin();
+  stIT temp_a = pile_a->begin();
   advance(temp_a,pos_a);
   pile_b->insert(pile_b->end(),temp_a,pile_a->end());
 
@@ -221,10 +227,10 @@ struct pilestruct
  void PrintStats()
  {
    int on = 0;
-   for(auto it = workspace.rbegin(); it != workspace.rend(); it++)
+   for(piles::reverse_iterator it = workspace.rbegin(); it != workspace.rend(); it++)
    {
      std::cout << on++ << ":";
-     for(auto kk = (*it).begin(); kk != (*it).end(); kk++)
+     for(stIT kk = (*it).begin(); kk != (*it).end(); kk++)
      {
       std::cout << " " << *kk;
      }
@@ -234,7 +240,7 @@ struct pilestruct
  void evaluateCommand(const std::string& s)
  {
  // is it the move command?
- auto it = s.begin()+4;
+ cchIT it = s.begin()+4;
  std::string temp(s.begin(), it);
  if(!temp.compare("move"))
  {
@@ -243,7 +249,7 @@ struct pilestruct
   {
     ++it;
   }
-  auto cap = it;
+  cchIT cap = it;
   ++cap;
   while(!isspace(*cap) && it != s.end())
   {
@@ -324,7 +330,7 @@ struct pilestruct
   {
     ++it;
   }
-  auto cap = it;
+  cchIT cap = it;
   ++cap;
   while(!isspace(*cap) && cap != s.end())
   {
@@ -408,7 +414,9 @@ int main()
     int mmm = 0;
     while(mmm < 1 || mmm > 24)
     {
-      std::cin >> mmm;
+      std::string input;
+      std::cin >> input;
+      mmm = atoi(input.c_str());
     }
      pilestruct robotic(mmm);
     while(getline(std::cin,temp))
@@ -417,14 +425,12 @@ int main()
       {
         break;
       }
-      robotic.evaluateCommand(temp);
-      robotic.PrintStats();
-      //commands.push_back(temp);
-    }/*
-    for(auto it = commands.begin(); it != commands.end(); ++it)
+      commands.push_back(temp);
+    }
+    for(std::list<std::string>::iterator it = commands.begin(); it != commands.end(); ++it)
     {
      robotic.evaluateCommand(*it);
     }
-    robotic.PrintStats();*/
+    robotic.PrintStats();
     return 0;
 }
