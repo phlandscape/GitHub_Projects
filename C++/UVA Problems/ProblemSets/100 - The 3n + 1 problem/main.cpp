@@ -1,25 +1,6 @@
 
 #include <iostream>
 
-int GoThrough(int a);
-int Doing(int n, int b);
-
-int main()
-{
-    int n, b;
-    while(std::cin >> n >> b)
-    {
-      std::cout << n << " " << b << " ";
-      if(n<b)
-      {
-        std::cout << Doing(n,b) << std::endl;
-      }
-      else{
-        std::cout << Doing(b,n) << std::endl;
-      }
-    }
-    return 0;
-}
 int GoThrough(int a)
 {
  int counting = 1;
@@ -36,4 +17,23 @@ int Doing(int n, int b)
   if(counting < temp){counting = temp;}
  }
  return counting;
+
+}
+
+
+int main()
+{
+    int n, b;
+    while(std::cin >> n >> b)
+    {
+      std::cout << n << " " << b << " ";
+      if(n<b)
+      {
+        std::cout << Doing(n,b) << std::endl;
+      }
+      else{
+        std::cout << Doing(b,n) << std::endl;
+      }
+    }
+    return 0;
 }
