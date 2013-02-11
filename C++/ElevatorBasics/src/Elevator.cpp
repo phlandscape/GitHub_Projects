@@ -51,18 +51,21 @@ void Elevator::SayState()
 {
     switch ( mState )
     {
-    case 1:
+    case OPEN:
         cout << "The Elevator is now Open." << endl;
         break;
-    case 2:
+    case CLOSED:
         cout << "The Elevator is now Closed." << endl;
         break;
-    case 4:
+    case OPENING:
         cout << "The Elevator is currently in the progress of opening." << endl;
         break;
-    case 8:
+    case CLOSING:
         cout << "The Elevator is currently in the progress of closing." << endl;
         break;
+    default:
+        cout << "This should not happen. There is a problem in the Source Code please dial your favorite Software Engineer." << endl;
+        exit(ABORT);
     }
 }
 // INTERFACE END
